@@ -68,5 +68,23 @@ namespace APP.STOREHOUSE.WEBAPI.Properties {
                 return ResourceManager.GetString("ERROR_EntitiWithIdNotFound", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Возникло ожидаемое исключение.
+        /// </summary>
+        public static string ERROR_ExpectedCase {
+            get {
+                return ResourceManager.GetString("ERROR_ExpectedCase", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Возникло не обработанное исключение.
+        /// </summary>
+        public static string ERROR_UnexpectedCase {
+            get {
+                return ResourceManager.GetString("ERROR_UnexpectedCase", resourceCulture);
+            }
+        }
     }
 }

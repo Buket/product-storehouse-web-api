@@ -120,4 +120,10 @@
   <data name="ERROR_EntitiWithIdNotFound" xml:space="preserve">
     <value>{entityname} с идентификатором {id} не найден</value>
   </data>
+  <data name="ERROR_ExpectedCase" xml:space="preserve">
+    <value>Возникло ожидаемое исключение</value>
+  </data>
+  <data name="ERROR_UnexpectedCase" xml:space="preserve">
+    <value>Возникло не обработанное исключение</value>
+  </data>
 </root>
