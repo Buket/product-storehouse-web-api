@@ -7,9 +7,13 @@ namespace APP.STOREHOUSE.WEBAPI.Data
 {
     public class StorehouseContext : DbContext
     {
-        public DbSet<Product> Products { get; set; }
+        public virtual DbSet<Product> Products { get; set; }
 
-        public StorehouseContext(IOptions<DatabaseConnectionOptions> options)
+        public StorehouseContext()
+        {
+        }
+
+        internal StorehouseContext(IOptions<DatabaseConnectionOptions> options)
             : base(options.Value.ConnectionString)
         {
         }
