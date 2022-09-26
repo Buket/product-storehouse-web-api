@@ -21,7 +21,7 @@ namespace APP.STOREHOUSE.WEBAPI.Services
             return context.Products.Where(x => x.Name.Contains(productname)).ToArray();
         }
 
-        public Guid CreateProduct(Product product)
+        public Guid Create(Product product)
         {
             using (context.Database.BeginTransaction())
             {
@@ -36,7 +36,7 @@ namespace APP.STOREHOUSE.WEBAPI.Services
             return product.Id;
         }
 
-        public void UpdateProduct(Product product)
+        public void Update(Product product)
         {
             using (context.Database.BeginTransaction())
             {
@@ -47,7 +47,7 @@ namespace APP.STOREHOUSE.WEBAPI.Services
             }
         }
 
-        public void DeleteProduct(Guid id)
+        public void Delete(Guid id)
         {
             using (context.Database.BeginTransaction())
             {

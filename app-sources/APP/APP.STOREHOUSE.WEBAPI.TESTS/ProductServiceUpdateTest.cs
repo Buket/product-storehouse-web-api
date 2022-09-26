@@ -49,7 +49,7 @@ namespace APP.STOREHOUSE.WEBAPI.TESTS
             fixture.Customize<Product>(x => x.With(property => property.Id, Guid.Parse("e63e2449-c4c5-484e-9330-f8a101909e68")));
             var product = fixture.Create<Product>();
             
-            _productService.UpdateProduct(product);
+            _productService.Update(product);
 
             _productsDbSet.Verify();
         }
@@ -62,7 +62,7 @@ namespace APP.STOREHOUSE.WEBAPI.TESTS
             fixture.Customize<Product>(x => x.With(property => property.Id, Guid.Parse("3d5c0436-bce3-438f-aeba-dd5c6c8ebe98")));
             var product = fixture.Create<Product>();
 
-            var exception = Assert.ThrowsException<NotFoundException>(() => _productService.UpdateProduct(product));
+            var exception = Assert.ThrowsException<NotFoundException>(() => _productService.Update(product));
 
             Assert.IsTrue(exception.Errors.Any());
         }

@@ -23,14 +23,14 @@ namespace APP.STOREHOUSE.WEBAPI.Controllers
         [HttpPost]
         public IActionResult Post([FromBody] Product product, [FromServices] ProductService productService)
         {
-            return this.Ok(productService.CreateProduct(product));
+            return this.Ok(productService.Create(product));
         }
 
         // PUT api/<ProductsController>
         [HttpPut()]
         public IActionResult Put([FromBody] Product product, [FromServices] ProductService productService)
         {
-            productService.UpdateProduct(product);
+            productService.Update(product);
             return this.Ok();
         }
 
@@ -38,7 +38,7 @@ namespace APP.STOREHOUSE.WEBAPI.Controllers
         [HttpDelete("{id:guid}")]
         public IActionResult Delete([FromRoute]Guid id, [FromServices] ProductService productService)
         {
-            productService.DeleteProduct(id);
+            productService.Delete(id);
             return this.Ok();
         }
     }
