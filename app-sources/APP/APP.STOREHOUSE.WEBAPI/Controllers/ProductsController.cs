@@ -1,4 +1,5 @@
 ﻿using APP.STOREHOUSE.WEBAPI.Data;
+using APP.STOREHOUSE.WEBAPI.Exceptions;
 using APP.STOREHOUSE.WEBAPI.Models;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -22,15 +23,34 @@ namespace APP.STOREHOUSE.WEBAPI.Controllers
 
         // POST api/<ProductsController>
         [HttpPost]
-        public IActionResult Post([FromBody] Product product)
+        public IActionResult Post([FromBody] Product product, [FromServices] StorehouseContext context)
         {
-            return this.Ok();
+            using (context.Database.BeginTransaction())
+            {
+                if (product.Id == default)
+                {
+                    product.Id = Guid.NewGuid();
+                }
+                context.Products.Add(product);
+                context.SaveChanges();
+            }
+
+            return this.Ok(product.Id);
         }
 
         // PUT api/<ProductsController>
         [HttpPut()]
-        public IActionResult Put([FromBody] Product product)
+        public IActionResult Put([FromBody] Product product, [FromServices] StorehouseContext context)
         {
+            using (context.Database.BeginTransaction())
+            {
+                //обновление
+                var storedProduct = context.Products.Find(product.Id) ?? throw new NotFoundException(Product.ProductName, product.Id);
+                context.Products.Remove(storedProduct);
+                context.Products.Add(product);
+                context.SaveChanges();
+            }
+
             return this.Ok();
         }
 
@@ -38,12 +58,15 @@ namespace APP.STOREHOUSE.WEBAPI.Controllers
         [HttpDelete("{id:guid}")]
         public IActionResult Delete([FromRoute]Guid id, [FromServices] StorehouseContext context)
         {
-            var product = context.Products.Find(id);
-            if (product != null)
+            using (context.Database.BeginTransaction())
             {
-                context.Products.Remove(product);
+                var product = context.Products.Find(id) ?? throw new NotFoundException(Product.ProductName, id);
+                if (product != null)
+                {
+                    context.Products.Remove(product);
+                    context.SaveChanges();
+                }
             }
-            context.SaveChanges();
 
             return this.Ok();
         }
