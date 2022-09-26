@@ -26,10 +26,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Services\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Resource Include="Properties\Resources.ru.resx">
       <Generator>ResXFileCodeGenerator</Generator>
     </Resource>
