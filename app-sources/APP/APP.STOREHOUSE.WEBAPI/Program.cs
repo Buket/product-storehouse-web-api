@@ -1,5 +1,6 @@
 using APP.STOREHOUSE.WEBAPI.Data;
 using APP.STOREHOUSE.WEBAPI.Options;
+using APP.STOREHOUSE.WEBAPI.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -20,6 +21,7 @@ namespace APP.STOREHOUSE.WEBAPI
             builder.Services.AddSwaggerGen();
             builder.Services.Configure<DatabaseConnectionOptions>(builder.Configuration.GetSection(DatabaseConnectionOptions.DatabaseConnection));
             builder.Services.AddScoped<StorehouseContext>(sp => new StorehouseContext(sp.GetService<IOptions<DatabaseConnectionOptions>>()));
+            builder.Services.AddScoped<ProductService>();
 
             var app = builder.Build();
 
