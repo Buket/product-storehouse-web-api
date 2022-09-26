@@ -50,8 +50,16 @@ WITH SIMILIAR_NAME_PRODUCT (ID, NAME) AS
 	WHERE
 		PRODUCT_NAME LIKE '%'+@product_name+'%'
 		AND
-		PRODUCTVERSION_NAME LIKE '%' + @productversion_name + '%'
+		(
+		@productversion_name is NULL
+		OR
+		(@productversion_name is NOT NULL AND (PRODUCTVERSION_NAME LIKE '%' + @productversion_name + '%'))
+		)
 		AND
-	@minimal_volume <= REFERENCED_PRODUCTVERSION.VOLUME AND REFERENCED_PRODUCTVERSION.VOLUME < @maximal_volume;
+		(
+		(@minimal_volume = 0 AND @maximal_volume = 0)
+		OR
+		(@minimal_volume <= REFERENCED_PRODUCTVERSION.VOLUME AND REFERENCED_PRODUCTVERSION.VOLUME < @maximal_volume)
+		);
 RETURN
 END;
