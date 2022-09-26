@@ -21,6 +21,11 @@ namespace APP.STOREHOUSE.WEBAPI.Services
             return context.Products.Where(x => x.Name.Contains(productname)).ToArray();
         }
 
+        public IEnumerable<ProductInfo> FindProduct(string productname, string productversionname = null, float? mixvolume = null, float? maxvolume = null)
+        {
+            return context.FindProduct(productname, productversionname, mixvolume, maxvolume).ToArray();
+        }
+
         public Guid Create(Product product)
         {
             using var transaction = context.Database.BeginTransaction(System.Data.IsolationLevel.Serializable);

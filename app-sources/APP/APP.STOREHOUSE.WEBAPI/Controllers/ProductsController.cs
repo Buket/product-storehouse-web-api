@@ -3,6 +3,7 @@ using APP.STOREHOUSE.WEBAPI.Models;
 using APP.STOREHOUSE.WEBAPI.Services;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.ComponentModel.DataAnnotations;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -14,9 +15,15 @@ namespace APP.STOREHOUSE.WEBAPI.Controllers
     {
         // GET: api/<ProductsController>
         [HttpGet]
-        public IActionResult Get([FromQuery] string productname, [FromServices] ProductService productService)
+        public IActionResult Get(
+            [FromServices] ProductService productService,
+            [FromQuery][Required] string productname,
+            [FromQuery] string productversionname = null,
+            [FromQuery] float? minVolume = null,
+            [FromQuery] float? maxVolume = null)
         {
-            return this.Ok(productService.Get(productname));
+            //return this.Ok(productService.Get(productname));
+            return this.Ok(productService.FindProduct(productname, productversionname, minVolume, maxVolume));
         }
 
         // POST api/<ProductsController>
