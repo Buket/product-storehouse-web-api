@@ -1,7 +1,9 @@
 using APP.STOREHOUSE.WEBAPI.Data;
+using APP.STOREHOUSE.WEBAPI.Options;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Options;
 
 namespace APP.STOREHOUSE.WEBAPI
 {
@@ -16,6 +18,8 @@ namespace APP.STOREHOUSE.WEBAPI
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+            builder.Services.Configure<DatabaseConnectionOptions>(builder.Configuration.GetSection(DatabaseConnectionOptions.DatabaseConnection));
+            builder.Services.AddScoped<StorehouseContext>(sp => new StorehouseContext(sp.GetService<IOptions<DatabaseConnectionOptions>>()));
 
             var app = builder.Build();
 

@@ -1,4 +1,6 @@
 ﻿using APP.STOREHOUSE.WEBAPI.Models;
+using APP.STOREHOUSE.WEBAPI.Options;
+using Microsoft.Extensions.Options;
 using System.Data.Entity;
 
 namespace APP.STOREHOUSE.WEBAPI.Data
@@ -7,14 +9,16 @@ namespace APP.STOREHOUSE.WEBAPI.Data
     {
         public DbSet<Product> Products { get; set; }
 
-        public StorehouseContext()
-            : base(@"Data Source=DESKTOP-K1GCKQ5\MSSQLSERVER2017;Initial Catalog=TestDb;User ID=TestDbLogin;Password=TestDbDevelop1;")
+        public StorehouseContext(IOptions<DatabaseConnectionOptions> options)
+            : base(options.Value.ConnectionString)
         {
         }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<Product>().ToTable("PRODUCT", "STOREHOUSE");
+            modelBuilder.Build(this.Database.Connection);
         }
     }
 }
