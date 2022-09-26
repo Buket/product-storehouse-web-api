@@ -1,4 +1,5 @@
 using APP.STOREHOUSE.WEBAPI.Data;
+using APP.STOREHOUSE.WEBAPI.Exceptions;
 using APP.STOREHOUSE.WEBAPI.Models;
 using APP.STOREHOUSE.WEBAPI.Services;
 using AutoFixture;
@@ -41,7 +42,7 @@ namespace APP.STOREHOUSE.WEBAPI.TESTS
         }
 
         [TestMethod]
-        public void TestMethodUpdateSuccess()
+        public void Update__Success()
         {
             var comparer = new ProductEqualityComparer();
             var fixture = new Fixture();
@@ -51,6 +52,19 @@ namespace APP.STOREHOUSE.WEBAPI.TESTS
             _productService.UpdateProduct(product);
 
             _productsDbSet.Verify();
+        }
+
+        [TestMethod]
+        public void Update__ThrowException()
+        {
+            var comparer = new ProductEqualityComparer();
+            var fixture = new Fixture();
+            fixture.Customize<Product>(x => x.With(property => property.Id, Guid.Parse("3d5c0436-bce3-438f-aeba-dd5c6c8ebe98")));
+            var product = fixture.Create<Product>();
+
+            var exception = Assert.ThrowsException<NotFoundException>(() => _productService.UpdateProduct(product));
+
+            Assert.IsTrue(exception.Errors.Any());
         }
     }
 }
